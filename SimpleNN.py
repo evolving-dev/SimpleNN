@@ -3,8 +3,7 @@ import random
 import time
 
 class Neuron:
-    def __init__(self, type="neuron", prev_layer=0):
-        self.weight = random.random() * 10
+    def __init__(self, type="neuron", prev_layer=1):
         self.type = str(type)
 
         self.input_weights = [random.random() for i in range(prev_layer)]
@@ -12,9 +11,9 @@ class Neuron:
 
     def __repr__(self):
         if self.type == "neuron":
-            return "<Neuron with weight of " + str(self.weight) + ", input weights of " + str(self.input_weights) + "constants of" + str(self.constants) + ">"
+            return "<Neuron with input weights of " + str(self.input_weights) + "constants of" + str(self.constants) + ">"
         else:
-            return "< " + str(self.type) + " Neuron with weight " + str(self.weight) + " and input weights of " + str(self.input_weights) + ">"
+            return "< " + str(self.type) + " Neuron with input weights of " + str(self.input_weights) + ">"
 
 class Network:
     def __init__(self, layers=[], neurons=[]):
@@ -47,13 +46,11 @@ class Network:
         for neuron in self.neurons[layer_no]:
             neuron_inputs = data.copy()
 
-            if layer_no != 0:
-                for element, value in enumerate(neuron_inputs):
-                    neuron_inputs[element] = value * neuron.input_weights[element] + neuron.constants[element] #Apply input weights
+            for element, value in enumerate(neuron_inputs):
+                neuron_inputs[element] = value * neuron.input_weights[element]# + neuron.constants[element] #Apply input weights
 
-            neuron_input = sum(neuron_inputs)
+            neuron_output = sum(neuron_inputs)
 
-            neuron_output = neuron_input * neuron.weight #Apply neuron weight
             neuron_outputs += [neuron_output]
 
         return neuron_outputs
@@ -80,16 +77,13 @@ class Network:
         random_layer = random.randint(0, self.layer_count - 1)
         random_neuron = random.randint(0, len(self.neurons[random_layer]) - 1)
 
-        for transformations in range(3): #3 transformations per sample
-            if random.random() > 1/3 and len(derived_network.neurons[random_layer][random_neuron].input_weights) != 0: #Decide randomly whether to change weights, constants or input weights
-                random_position = random.randint(0, len(derived_network.neurons[random_layer][random_neuron].input_weights) - 1)
+        random_position = random.randint(0, len(derived_network.neurons[random_layer][random_neuron].input_weights) - 1)
 
-                if random.random() > 0.5:
-                    derived_network.neurons[random_layer][random_neuron].input_weights[random_position] += random.choice([-1, 1]) * self.step_size
-                else:
-                    derived_network.neurons[random_layer][random_neuron].constants[random_position] += random.choice([-1, 1]) * self.step_size
-            else:
-                derived_network.neurons[random_layer][random_neuron].weight += random.choice([-1, 1]) * self.step_size
+        if random.random() > 0.5:
+            derived_network.neurons[random_layer][random_neuron].input_weights[random_position] += random.choice([-1, 1]) * self.step_size
+        else:
+            derived_network.neurons[random_layer][random_neuron].constants[random_position] += random.choice([-1, 1]) * self.step_size
+
 
 
         derived_output = derived_network.predict(data)

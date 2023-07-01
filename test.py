@@ -8,7 +8,7 @@ out_data = [[1], [4], [9], [16], [25], [36], [49], [64], [81], [100]]
 
 print(model.predict([10]))
 
-model.train(in_data, out_data, epochs=10000, error_samples=5)
+model.train(in_data, out_data, epochs=100, error_samples=10)
 
 print(model.predict([10]))
     
