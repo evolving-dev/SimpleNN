@@ -35,24 +35,62 @@ Network.train() will train the model using the specified input and desired outpu
 
 #### Arguments:
 
-<code>inputs</code>
-List of input data (list of lists of integers or floats)
-
-<code>outputs</code>
-List of desired output data (list of lists of integers or floats)
-The index in the inputs list corresponds to the index in the ouputs list
-
-<code>epochs</code>
-Number of training cycles of the given data
-
-<code>step_size_threshold</code>
-Number of unsuccessful epochs before the step size is decreased by the factor of 10
-
-<code>step_size_override</code>
-Force a specific step size while training (0 = automatic)
-
-<code>verbose</code>
-Setting <code>verbose=True</code> outputs training details to the console. If <code>verbose</code> is set to <code>False</code>, this information is not displayed.
-
-<code>error_samples</code>
-Number of additional training samples being used for accuracy evaluation 
+<table>
+    <tr>
+        <td>
+            <code>inputs</code>
+        </td>
+        <td>
+            List of input data (list of lists of integers or floats)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>outputs</code>
+        </td>
+        <td>
+            List of desired output data (list of lists of integers or floats)
+            The index in the inputs list corresponds to the index in the ouputs list
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>epochs</code>
+        </td>
+        <td>
+            Number of training cycles on the given data
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>step_size_threshold</code>
+        </td>
+        <td>
+            Number of epochs without progress before the step size is decreased by the factor of 10
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>step_size_override</code>
+        </td>
+        <td>
+            Force a specific step size while training (0 = automatic)
+        </td>
+    </tr>
+    <tr>
+         <td>
+            <code>verbose</code>
+        </td>
+        <td>
+            Setting <code>verbose=True</code> outputs training details to the console. If <code>verbose</code> is set to <code>False</code>, this information is not displayed.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>error_samples</code>
+        </td>
+        <td>
+            Number of additional training samples being used for accuracy evaluation 
+        </td>
+    </tr>
+</table>
