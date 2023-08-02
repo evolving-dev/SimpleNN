@@ -7,11 +7,10 @@ class Neuron:
         self.type = str(type)
 
         self.input_weights = [random.random() for i in range(prev_layer)]
-        self.constants = [random.random() * 10 for i in range(prev_layer)]
 
     def __repr__(self):
         if self.type == "neuron":
-            return "<Neuron with input weights of " + str(self.input_weights) + "constants of" + str(self.constants) + ">"
+            return "<Neuron with input weights of " + str(self.input_weights) + ">"
         else:
             return "< " + str(self.type) + " Neuron with input weights of " + str(self.input_weights) + ">"
 
@@ -47,7 +46,7 @@ class Network:
             neuron_inputs = data.copy()
 
             for element, value in enumerate(neuron_inputs):
-                neuron_inputs[element] = value * neuron.input_weights[element]# + neuron.constants[element] #Apply input weights
+                neuron_inputs[element] = value * neuron.input_weights[element] #Apply input weights
 
             neuron_output = sum(neuron_inputs)
 
@@ -79,12 +78,7 @@ class Network:
 
         random_position = random.randint(0, len(derived_network.neurons[random_layer][random_neuron].input_weights) - 1)
 
-        if random.random() > 0.5:
-            derived_network.neurons[random_layer][random_neuron].input_weights[random_position] += random.choice([-1, 1]) * self.step_size
-        else:
-            derived_network.neurons[random_layer][random_neuron].constants[random_position] += random.choice([-1, 1]) * self.step_size
-
-
+        derived_network.neurons[random_layer][random_neuron].input_weights[random_position] += random.choice([-1, 1]) * self.step_size
 
         derived_output = derived_network.predict(data)
         derived_differences = [abs(trained - actual) for trained, actual in zip(train_output, derived_output)]
@@ -116,7 +110,7 @@ class Network:
         changes = False
         epochs_without_progress = 0
 
-        self.step_size = start_step_size
+        self.step_size = self.step_size
         if step_size_override != 0:
             self.step_size = step_size_override
 
