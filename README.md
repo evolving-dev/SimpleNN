@@ -35,24 +35,24 @@ Network.train() will train the model using the specified input and desired outpu
 
 #### Arguments:
 
-##### inputs
+<code>inputs</code>
 List of input data (list of lists of integers or floats)
 
-##### outputs
+<code>outputs</code>
 List of desired output data (list of lists of integers or floats)
 The index in the inputs list corresponds to the index in the ouputs list
 
-##### epochs
+<code>epochs</code>
 Number of training cycles of the given data
 
-##### step_size_threshold
+<code>step_size_threshold</code>
 Number of unsuccessful epochs before the step size is decreased by the factor of 10
 
-##### step_size_override
+<code>step_size_override</code>
 Force a specific step size while training (0 = automatic)
 
-##### verbose
+<code>verbose</code>
 Setting <code>verbose=True</code> outputs training details to the console. If <code>verbose</code> is set to <code>False</code>, this information is not displayed.
 
-##### error_samples
+<code>error_samples</code>
 Number of additional training samples being used for accuracy evaluation 
