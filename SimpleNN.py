@@ -106,7 +106,7 @@ class Network:
 
         return changes
 
-    def train(self, inputs, outputs, epochs=10, start_step_size=10, step_size_threshold=5, step_size_override=0, verbose=True, error_samples=0):
+    def train(self, inputs, outputs, epochs=10, step_size_threshold=5, step_size_override=0, verbose=True, error_samples=0):
         changes = False
         epochs_without_progress = 0
 
