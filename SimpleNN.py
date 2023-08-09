@@ -6,7 +6,8 @@ class Neuron:
     def __init__(self, type="neuron", prev_layer=1):
         self.type = str(type)
 
-        self.input_weights = [random.random() for i in range(prev_layer)]
+        if self.type != "input":
+            self.input_weights = [2 * random.random() -1 for i in range(prev_layer)]
 
     def __repr__(self):
         if self.type == "neuron":
@@ -43,14 +44,7 @@ class Network:
         neuron_outputs = []
 
         if layer_no == 0:
-            for n_neuron, neuron in enumerate(self.neurons[layer_no]):
-                neuron_input = data[n_neuron]
-
-                neuron_output = neuron_input * neuron.input_weights[0]
-
-                neuron_outputs += [neuron_output]
-
-            return neuron_outputs
+            return data
         
         else:
             for neuron in self.neurons[layer_no]:
@@ -84,7 +78,7 @@ class Network:
 
         derived_network = copy.deepcopy(self)
 
-        random_layer = random.randint(0, self.layer_count - 1)
+        random_layer = random.randint(1, self.layer_count - 1)
         random_neuron = random.randint(0, len(self.neurons[random_layer]) - 1)
 
         random_position = random.randint(0, len(derived_network.neurons[random_layer][random_neuron].input_weights) - 1)
