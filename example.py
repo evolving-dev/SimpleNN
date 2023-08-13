@@ -22,6 +22,8 @@ for i in range(10):
     prediction = model.predict([test_value])[0]
     print("The model now predicts that " + str(test_value) + " * 2 = " + str(prediction) + " (difference: " + str(prediction - test_value * 2) + ")")
 
+print("\nSaving model...")
+model.save_to("example_model.json")
 
 while True:
     print("\n")

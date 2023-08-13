@@ -2,12 +2,14 @@ import copy
 import random
 import time
 
+from ast import literal_eval
+
 class Neuron:
     def __init__(self, type="neuron", prev_layer=1):
         self.type = str(type)
 
         if self.type != "input":
-            self.input_weights = [2 * random.random() -1 for i in range(prev_layer)]
+            self.input_weights = [random.choice([0, 2 * random.random() - 1]) for i in range(prev_layer)]
 
     def __repr__(self):
         if self.type == "neuron":
@@ -15,8 +17,13 @@ class Neuron:
         else:
             return "< " + str(self.type) + " Neuron with input weights of " + str(self.input_weights) + ">"
 
+    def get_json_repr(self):
+        if self.type != "input":
+            return {"type": self.type, "input_weights": self.input_weights}
+        return {"type": self.type}
+
 class Network:
-    def __init__(self, layers=[], neurons=[]):
+    def __init__(self, layers=[]):
         self.layers = layers
         self.layer_count = len(layers)
         self.neurons = []
@@ -30,6 +37,15 @@ class Network:
                     self.neurons[-1] += [Neuron(type="input")]
                 else:
                     self.neurons[-1] += [Neuron(prev_layer=layers[layer_no - 1])]
+
+    def get_json_repr(self):
+        neurons = []
+        for layer in self.neurons:
+            neurons += [[]]
+            for neuron in layer:
+                neurons[-1] += [neuron.get_json_repr()]
+
+        return str({"layers": self.layers, "neurons": neurons})
 
     def get_architecture(self):
         return str(self.neurons)
@@ -45,7 +61,7 @@ class Network:
 
         if layer_no == 0:
             return data
-        
+
         else:
             for neuron in self.neurons[layer_no]:
                 neuron_inputs = data.copy()
@@ -154,3 +170,22 @@ class Network:
                 print("(" + str(epoch_no + 1) + "/" + str(epochs) + ") Average total training error: " + (str(round(error_rate, 4 if error_rate > 0.1001 else 10))))
 
         return changes
+
+    def save_to(self, file_name):
+        with open(file_name, "w") as f:
+            f.write(str(self.get_json_repr()))
+
+    def load_weights(self, neurons):
+        for n_layer, layer in enumerate(neurons):
+            for n_neuron, neuron in enumerate(layer):
+                if "input_weights" in neuron.keys():
+                    self.neurons[n_layer][n_neuron].input_weights = neuron["input_weights"]
+
+def load_network_from(file_name):
+    with open(file_name, "r") as f:
+        json_repr = literal_eval(f.read())
+
+    nw = Network(json_repr["layers"])
+    nw.load_weights(json_repr["neurons"])
+
+    return nw
