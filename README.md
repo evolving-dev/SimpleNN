@@ -94,3 +94,15 @@ Network.train() will train the model using the specified input and desired outpu
         </td>
     </tr>
 </table>
+
+### Saving and loading
+
+Models can be saved by using their <code>save_to</code> function
+
+    model.save_to(file_name)
+
+and loaded by the modules' <code>load_network_from</code> function
+
+    SimpleNN.load_network_from(file_name)
+
+In both cases, file names are passed as a string. The resulting files are json-compatible, so they can be saved with a <code>.json</code> extension.
